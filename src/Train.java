@@ -1,73 +1,47 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * UseCase5BookingRequestQueue
+ * UseCase5TrainConsistApp
  *
- * This class demonstrates handling booking requests using
- * a Queue (FIFO) to ensure fair processing order.
+ * This class demonstrates maintaining train formation using
+ * LinkedHashSet to ensure both uniqueness and insertion order.
  *
  * @author Aryan
  * @version 1.0
  */
-
-// Reservation class representing a booking request
-class Reservation {
-    private String guestName;
-    private String roomType;
-
-    public Reservation(String guestName, String roomType) {
-        this.guestName = guestName;
-        this.roomType = roomType;
-    }
-
-    public String getGuestName() {
-        return guestName;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    @Override
-    public String toString() {
-        return "Guest: " + guestName + ", Room Type: " + roomType;
-    }
-}
-
-public class Train{
+public class UseCase5TrainConsistApp {
 
     public static void main(String[] args) {
 
         // Welcome message
         System.out.println("=======================================");
-        System.out.println("   Hotel Booking Management System");
+        System.out.println("   Train Consist Management App");
         System.out.println("=======================================");
 
-        // Create booking request queue (FIFO)
-        Queue<Reservation> bookingQueue = new LinkedList<>();
+        // Create LinkedHashSet for train formation
+        Set<String> trainFormation = new LinkedHashSet<>();
 
-        // Add booking requests (simulate incoming requests)
-        System.out.println("\nAdding booking requests...");
+        // Add bogies (insertion order maintained)
+        System.out.println("\nAdding bogies...");
 
-        bookingQueue.add(new Reservation("Aryan", "Single Room"));
-        bookingQueue.add(new Reservation("Neha", "Double Room"));
-        bookingQueue.add(new Reservation("Rahul", "Suite"));
+        trainFormation.add("Engine");
+        trainFormation.add("Sleeper");
+        trainFormation.add("Cargo");
+        trainFormation.add("Guard");
 
-        // Display queue state
-        System.out.println("\nCurrent Booking Queue:");
-        for (Reservation r : bookingQueue) {
-            System.out.println(r);
+        // Attempt duplicate insertion
+        System.out.println("\nAttempting to add duplicate bogie: Sleeper");
+        boolean isAdded = trainFormation.add("Sleeper");
+
+        if (!isAdded) {
+            System.out.println("Duplicate bogie ignored: Sleeper");
         }
 
-        // Show next request to be processed (without removing)
-        System.out.println("\nNext request to be processed:");
-        System.out.println(bookingQueue.peek());
+        // Display final formation
+        System.out.println("\nFinal Train Formation (Ordered & Unique):");
+        System.out.println(trainFormation);
 
-        // Total requests in queue
-        System.out.println("\nTotal pending requests: " + bookingQueue.size());
-
-        System.out.println("\nAll requests are stored in arrival order (FIFO).");
-        System.out.println("No rooms allocated yet. Ready for next stage...");
+        System.out.println("\nTrain sequence preserved with no duplicates.");
     }
 }
