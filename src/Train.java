@@ -1,16 +1,16 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * UseCase5TrainConsistApp
+ * UseCase6TrainConsistApp
  *
- * This class demonstrates maintaining train formation using
- * LinkedHashSet to ensure both uniqueness and insertion order.
+ * This class demonstrates mapping bogies to their capacities
+ * using HashMap (key-value pairs).
  *
  * @author Aryan
  * @version 1.0
  */
-public class UseCase5TrainConsistApp {
+public class Train {
 
     public static void main(String[] args) {
 
@@ -19,29 +19,27 @@ public class UseCase5TrainConsistApp {
         System.out.println("   Train Consist Management App");
         System.out.println("=======================================");
 
-        // Create LinkedHashSet for train formation
-        Set<String> trainFormation = new LinkedHashSet<>();
+        // Create HashMap for bogie-capacity mapping
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        // Add bogies (insertion order maintained)
-        System.out.println("\nAdding bogies...");
+        // Insert bogies with capacities
+        System.out.println("\nAdding bogie capacity details...");
 
-        trainFormation.add("Engine");
-        trainFormation.add("Sleeper");
-        trainFormation.add("Cargo");
-        trainFormation.add("Guard");
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 60);
+        bogieCapacityMap.put("First Class", 24);
 
-        // Attempt duplicate insertion
-        System.out.println("\nAttempting to add duplicate bogie: Sleeper");
-        boolean isAdded = trainFormation.add("Sleeper");
+        // Display all entries using entrySet()
+        System.out.println("\nBogie Capacity Details:");
 
-        if (!isAdded) {
-            System.out.println("Duplicate bogie ignored: Sleeper");
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println("Bogie: " + entry.getKey() +
+                    " | Capacity: " + entry.getValue());
         }
 
-        // Display final formation
-        System.out.println("\nFinal Train Formation (Ordered & Unique):");
-        System.out.println(trainFormation);
+        // Example of fast lookup
+        System.out.println("\nCapacity of Sleeper: " + bogieCapacityMap.get("Sleeper"));
 
-        System.out.println("\nTrain sequence preserved with no duplicates.");
+        System.out.println("\nSystem ready for analytics and validation...");
     }
 }
