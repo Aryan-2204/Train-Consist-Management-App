@@ -1,16 +1,15 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 
 /**
- * UseCase3TrainConsistApp
+ * UseCase4TrainConsistApp
  *
- * This class demonstrates how to enforce uniqueness of bogie IDs
- * using HashSet in the Train Consist Management System.
+ * This class demonstrates maintaining an ordered train consist
+ * using LinkedList operations.
  *
  * @author Aryan
  * @version 1.0
  */
-public class Traingit {
+public class Train {
 
     public static void main(String[] args) {
 
@@ -19,34 +18,36 @@ public class Traingit {
         System.out.println("   Train Consist Management App");
         System.out.println("=======================================");
 
-        // Create a HashSet to store unique bogie IDs
-        Set<String> bogieIds = new HashSet<>();
+        // Create LinkedList for train consist
+        LinkedList<String> trainConsist = new LinkedList<>();
 
-        // Add bogie IDs
-        System.out.println("\nAdding bogie IDs...");
+        // Add bogies (initial formation)
+        trainConsist.add("Engine");
+        trainConsist.add("Sleeper");
+        trainConsist.add("AC");
+        trainConsist.add("Cargo");
+        trainConsist.add("Guard");
 
-        bogieIds.add("BG101");
-        bogieIds.add("BG102");
-        bogieIds.add("BG103");
+        System.out.println("\nInitial Train Consist:");
+        System.out.println(trainConsist);
 
-        // Attempt to add duplicate
-        boolean isAdded = bogieIds.add("BG101");
+        // Insert Pantry Car at position 2
+        trainConsist.add(2, "Pantry Car");
 
-        // Display all bogies
-        System.out.println("\nCurrent Bogie IDs:");
-        System.out.println(bogieIds);
+        System.out.println("\nAfter adding Pantry Car at position 2:");
+        System.out.println(trainConsist);
 
-        // Check duplicate insertion result
-        if (!isAdded) {
-            System.out.println("\nDuplicate ID detected: BG101 (not added)");
-        }
+        // Remove first and last bogie
+        trainConsist.removeFirst();
+        trainConsist.removeLast();
 
-        // Check existence
-        System.out.println("\nDoes BG102 exist? " + bogieIds.contains("BG102"));
+        System.out.println("\nAfter removing first and last bogie:");
+        System.out.println(trainConsist);
 
-        // Final count
-        System.out.println("\nTotal unique bogies: " + bogieIds.size());
+        // Final state
+        System.out.println("\nFinal Ordered Train Consist:");
+        System.out.println(trainConsist);
 
-        System.out.println("\nSystem ensures no duplicate bogie IDs.");
+        System.out.println("\nTrain sequence maintained successfully.");
     }
 }
