@@ -10,7 +10,7 @@ import java.util.Set;
  * @author Aryan
  * @version 1.0
  */
-public class UseCase5TrainConsistApp {
+public class Train {
 
     public static void main(String[] args) {
 
