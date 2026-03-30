@@ -1,53 +1,73 @@
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
- * UseCase4TrainConsistApp
+ * UseCase5BookingRequestQueue
  *
- * This class demonstrates maintaining an ordered train consist
- * using LinkedList operations.
+ * This class demonstrates handling booking requests using
+ * a Queue (FIFO) to ensure fair processing order.
  *
  * @author Aryan
  * @version 1.0
  */
-public class Train {
+
+// Reservation class representing a booking request
+class Reservation {
+    private String guestName;
+    private String roomType;
+
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    @Override
+    public String toString() {
+        return "Guest: " + guestName + ", Room Type: " + roomType;
+    }
+}
+
+public class Train{
 
     public static void main(String[] args) {
 
         // Welcome message
         System.out.println("=======================================");
-        System.out.println("   Train Consist Management App");
+        System.out.println("   Hotel Booking Management System");
         System.out.println("=======================================");
 
-        // Create LinkedList for train consist
-        LinkedList<String> trainConsist = new LinkedList<>();
+        // Create booking request queue (FIFO)
+        Queue<Reservation> bookingQueue = new LinkedList<>();
 
-        // Add bogies (initial formation)
-        trainConsist.add("Engine");
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC");
-        trainConsist.add("Cargo");
-        trainConsist.add("Guard");
+        // Add booking requests (simulate incoming requests)
+        System.out.println("\nAdding booking requests...");
 
-        System.out.println("\nInitial Train Consist:");
-        System.out.println(trainConsist);
+        bookingQueue.add(new Reservation("Aryan", "Single Room"));
+        bookingQueue.add(new Reservation("Neha", "Double Room"));
+        bookingQueue.add(new Reservation("Rahul", "Suite"));
 
-        // Insert Pantry Car at position 2
-        trainConsist.add(2, "Pantry Car");
+        // Display queue state
+        System.out.println("\nCurrent Booking Queue:");
+        for (Reservation r : bookingQueue) {
+            System.out.println(r);
+        }
 
-        System.out.println("\nAfter adding Pantry Car at position 2:");
-        System.out.println(trainConsist);
+        // Show next request to be processed (without removing)
+        System.out.println("\nNext request to be processed:");
+        System.out.println(bookingQueue.peek());
 
-        // Remove first and last bogie
-        trainConsist.removeFirst();
-        trainConsist.removeLast();
+        // Total requests in queue
+        System.out.println("\nTotal pending requests: " + bookingQueue.size());
 
-        System.out.println("\nAfter removing first and last bogie:");
-        System.out.println(trainConsist);
-
-        // Final state
-        System.out.println("\nFinal Ordered Train Consist:");
-        System.out.println(trainConsist);
-
-        System.out.println("\nTrain sequence maintained successfully.");
+        System.out.println("\nAll requests are stored in arrival order (FIFO).");
+        System.out.println("No rooms allocated yet. Ready for next stage...");
     }
 }
