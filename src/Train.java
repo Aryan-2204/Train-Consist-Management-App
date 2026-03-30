@@ -1,36 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * UseCase1TrainConsistApp
+ * UseCase1HotelBookingApp
  *
- * This class initializes the Train Consist Management Application
- * and displays the initial state of the train.
+ * This class represents the entry point of the Hotel Booking Management System.
+ * It demonstrates how a Java application starts execution and prints output
+ * to the console.
  *
  * @author Aryan
  * @version 1.0
  */
+
 public class Train {
 
     /**
-     * Entry point of the application
-     * @param args command line arguments
+     * Main method - Entry point of the application
+     *
+     * @param args Command line arguments
      */
     public static void main(String[] args) {
 
         // Welcome message
         System.out.println("=======================================");
-        System.out.println("   Train Consist Management App");
+        System.out.println(" Welcome to Hotel Booking System ");
+        System.out.println(" Version: 1.0 ");
         System.out.println("=======================================");
 
-        // Initialize empty train consist (dynamic list)
-        List<String> trainConsist = new ArrayList<>();
-
-        // Display initial bogie count
-        System.out.println("Train consist initialized.");
-        System.out.println("Initial number of bogies: " + trainConsist.size());
-
-        // Program continues...
-        System.out.println("System ready for further operations.");
+        // Application end message (optional)
+        System.out.println("Application started successfully!");
     }
 }
