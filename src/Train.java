@@ -1,18 +1,18 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * UseCase7TrainConsistApp
+ * UseCase8TrainConsistApp
  *
- * This class demonstrates sorting bogies based on capacity
- * using Comparator and custom objects.
+ * This class demonstrates filtering bogies using Java Stream API
+ * based on seating capacity.
  *
  * @author Aryan
  * @version 1.0
  */
 
-// Bogie class (custom object)
+// Reusing Bogie class
 class Bogie {
     private String name;
     private int capacity;
@@ -36,7 +36,7 @@ class Bogie {
     }
 }
 
-public class Train {
+public class Train{
 
     public static void main(String[] args) {
 
@@ -45,29 +45,29 @@ public class Train {
         System.out.println("   Train Consist Management App");
         System.out.println("=======================================");
 
-        // Create list of bogies
+        // Create bogie list (same as UC7)
         List<Bogie> bogies = new ArrayList<>();
-
-        // Add bogies
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 24));
 
-        // Display before sorting
-        System.out.println("\nBefore Sorting:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Display original list
+        System.out.println("\nOriginal Bogie List:");
+        bogies.forEach(System.out::println);
 
-        // Sort bogies by capacity (ascending)
-        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+        // Filter bogies with capacity > 60 using Stream API
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
 
-        // Display after sorting
-        System.out.println("\nAfter Sorting by Capacity (Ascending):");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Display filtered list
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        filteredBogies.forEach(System.out::println);
 
-        System.out.println("\nSorted successfully using Comparator.");
+        // Verify original list unchanged
+        System.out.println("\nOriginal List After Filtering (Unchanged):");
+        bogies.forEach(System.out::println);
+
+        System.out.println("\nFiltering completed using Stream API.");
     }
 }
