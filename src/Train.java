@@ -2,57 +2,26 @@ import java.util.*;
 
 class Train {
 
-    // ---------------- CUSTOM RUNTIME EXCEPTION ----------------
-    static class CargoSafetyException extends RuntimeException {
-        public CargoSafetyException(String message) {
-            super(message);
-        }
-    }
+    // ---------------- BUBBLE SORT METHOD ----------------
+    public static void bubbleSort(int[] capacities) {
 
-    // ---------------- GOODS BOGIE ----------------
-    static class GoodsBogie {
-        String type;   // Cylindrical / Rectangular
-        String cargo;
+        int n = capacities.length;
 
-        GoodsBogie(String type) {
-            this.type = type;
-        }
+        // Outer loop for passes
+        for (int i = 0; i < n - 1; i++) {
 
-        public String getType() {
-            return type;
-        }
+            // Inner loop for comparison
+            for (int j = 0; j < n - i - 1; j++) {
 
-        public String getCargo() {
-            return cargo;
-        }
+                // Compare adjacent elements
+                if (capacities[j] > capacities[j + 1]) {
 
-        public void setCargo(String cargo) {
-            this.cargo = cargo;
-        }
-    }
-
-    // ---------------- CARGO ASSIGNMENT METHOD ----------------
-    public static void assignCargo(GoodsBogie bogie, String cargo) {
-
-        try {
-            // Validation rule
-            if (bogie.getType().equalsIgnoreCase("Rectangular") &&
-                cargo.equalsIgnoreCase("Petroleum")) {
-
-                throw new CargoSafetyException("Petroleum cannot be assigned to Rectangular bogie!");
+                    // Swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
             }
-
-            // Safe assignment
-            bogie.setCargo(cargo);
-            System.out.println("✅ Cargo assigned successfully.");
-
-        } catch (CargoSafetyException e) {
-            // Handle unsafe assignment
-            System.out.println("❌ Error: " + e.getMessage());
-
-        } finally {
-            // Always executes
-            System.out.println("🔄 Assignment attempt completed.\n");
         }
     }
 
@@ -61,25 +30,25 @@ class Train {
 
         Scanner sc = new Scanner(System.in);
 
-        // Sample bogies
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        System.out.print("Enter number of passenger bogies: ");
+        int n = sc.nextInt();
 
-        // User input for cargo
-        System.out.print("Enter cargo for Cylindrical bogie: ");
-        String cargo1 = sc.nextLine();
+        int[] capacities = new int[n];
 
-        System.out.print("Enter cargo for Rectangular bogie: ");
-        String cargo2 = sc.nextLine();
+        // Input capacities
+        System.out.println("Enter capacities:");
+        for (int i = 0; i < n; i++) {
+            capacities[i] = sc.nextInt();
+        }
 
-        // Assign cargo safely
-        assignCargo(b1, cargo1);
-        assignCargo(b2, cargo2);
+        // Perform Bubble Sort
+        bubbleSort(capacities);
 
-        // Display final state
-        System.out.println("--- Final Bogie Status ---");
-        System.out.println("Cylindrical Bogie Cargo: " + b1.getCargo());
-        System.out.println("Rectangular Bogie Cargo: " + b2.getCargo());
+        // Display sorted result
+        System.out.println("\nSorted Bogie Capacities:");
+        for (int cap : capacities) {
+            System.out.print(cap + " ");
+        }
 
         sc.close();
     }
