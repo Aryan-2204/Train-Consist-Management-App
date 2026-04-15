@@ -2,28 +2,50 @@ import java.util.*;
 
 class Train {
 
+    // ---------------- LINEAR SEARCH METHOD ----------------
+    public static boolean linearSearch(String[] bogieIds, String key) {
+
+        for (int i = 0; i < bogieIds.length; i++) {
+
+            // Compare using equals()
+            if (bogieIds[i].equals(key)) {
+                return true; // match found → stop early
+            }
+        }
+
+        return false; // no match found
+    }
+
+    // ---------------- MAIN METHOD ----------------
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter number of bogie types: ");
+        System.out.print("Enter number of bogie IDs: ");
         int n = sc.nextInt();
         sc.nextLine(); // consume newline
 
-        String[] bogieNames = new String[n];
+        String[] bogieIds = new String[n];
 
-        // Input bogie names
-        System.out.println("Enter bogie type names:");
+        // Input bogie IDs
+        System.out.println("Enter bogie IDs:");
         for (int i = 0; i < n; i++) {
-            bogieNames[i] = sc.nextLine();
+            bogieIds[i] = sc.nextLine();
         }
 
-        // Sort using Arrays.sort()
-        Arrays.sort(bogieNames);
+        // Input search key
+        System.out.print("\nEnter Bogie ID to search: ");
+        String searchKey = sc.nextLine();
 
-        // Display sorted result
-        System.out.println("\nSorted Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        // Perform search
+        boolean found = linearSearch(bogieIds, searchKey);
+
+        // Display result
+        if (found) {
+            System.out.println("✅ Bogie ID FOUND in the train consist.");
+        } else {
+            System.out.println("❌ Bogie ID NOT FOUND.");
+        }
 
         sc.close();
     }
