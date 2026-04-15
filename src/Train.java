@@ -1,16 +1,32 @@
 import java.util.*;
-import java.util.stream.*;
 
 class Train {
 
-    // Passenger Bogie class (for capacity filtering)
+    // ---------------- CUSTOM EXCEPTION ----------------
+    static class InvalidCapacityException extends Exception {
+        public InvalidCapacityException(String message) {
+            super(message);
+        }
+    }
+
+    // ---------------- PASSENGER BOGIE ----------------
     static class PassengerBogie {
         String type;
         int capacity;
 
-        PassengerBogie(String type, int capacity) {
+        // Constructor with validation
+        PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+
+            if (capacity <= 0) {
+                throw new InvalidCapacityException("Capacity must be greater than zero");
+            }
+
             this.type = type;
             this.capacity = capacity;
+        }
+
+        public String getType() {
+            return type;
         }
 
         public int getCapacity() {
@@ -18,50 +34,46 @@ class Train {
         }
     }
 
+    // ---------------- MAIN METHOD ----------------
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
         List<PassengerBogie> bogies = new ArrayList<>();
 
-        // Create sample dataset (large dataset simulation)
-        for (int i = 0; i < 100000; i++) {
-            bogies.add(new PassengerBogie("Sleeper", (i % 100) + 1));
-        }
+        System.out.print("Enter number of passenger bogies: ");
+        int n = sc.nextInt();
 
-        // ---------------- LOOP-BASED FILTERING ----------------
-        long loopStart = System.nanoTime();
+        for (int i = 0; i < n; i++) {
+            sc.nextLine(); // consume newline
 
-        List<PassengerBogie> loopResult = new ArrayList<>();
-        for (PassengerBogie b : bogies) {
-            if (b.getCapacity() > 60) {
-                loopResult.add(b);
+            System.out.println("\nEnter details for Bogie " + (i + 1));
+
+            System.out.print("Type (Sleeper/AC Chair/First Class): ");
+            String type = sc.nextLine();
+
+            System.out.print("Capacity: ");
+            int capacity = sc.nextInt();
+
+            try {
+                // Attempt to create bogie
+                PassengerBogie bogie = new PassengerBogie(type, capacity);
+                bogies.add(bogie);
+
+                System.out.println("✅ Bogie added successfully.");
+
+            } catch (InvalidCapacityException e) {
+                // Handle invalid capacity
+                System.out.println("❌ Error: " + e.getMessage());
+                System.out.println("Bogie NOT added.");
             }
         }
 
-        long loopEnd = System.nanoTime();
-        long loopTime = loopEnd - loopStart;
-
-        // ---------------- STREAM-BASED FILTERING ----------------
-        long streamStart = System.nanoTime();
-
-        List<PassengerBogie> streamResult = bogies.stream()
-                .filter(b -> b.getCapacity() > 60)
-                .collect(Collectors.toList());
-
-        long streamEnd = System.nanoTime();
-        long streamTime = streamEnd - streamStart;
-
-        // ---------------- RESULTS ----------------
-        System.out.println("Loop Result Size: " + loopResult.size());
-        System.out.println("Stream Result Size: " + streamResult.size());
-
-        System.out.println("\nLoop Execution Time (ns): " + loopTime);
-        System.out.println("Stream Execution Time (ns): " + streamTime);
-
-        // Verify both results match
-        if (loopResult.size() == streamResult.size()) {
-            System.out.println("\n✅ Both approaches produce SAME results");
-        } else {
-            System.out.println("\n❌ Results mismatch!");
+        // Display valid bogies
+        System.out.println("\n--- Valid Passenger Bogies ---");
+        for (PassengerBogie b : bogies) {
+            System.out.println("Type: " + b.getType() + ", Capacity: " + b.getCapacity());
         }
+
+        sc.close();
     }
 }
