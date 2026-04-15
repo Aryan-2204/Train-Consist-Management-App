@@ -2,35 +2,57 @@ import java.util.*;
 
 class Train {
 
-    // ---------------- CUSTOM EXCEPTION ----------------
-    static class InvalidCapacityException extends Exception {
-        public InvalidCapacityException(String message) {
+    // ---------------- CUSTOM RUNTIME EXCEPTION ----------------
+    static class CargoSafetyException extends RuntimeException {
+        public CargoSafetyException(String message) {
             super(message);
         }
     }
 
-    // ---------------- PASSENGER BOGIE ----------------
-    static class PassengerBogie {
-        String type;
-        int capacity;
+    // ---------------- GOODS BOGIE ----------------
+    static class GoodsBogie {
+        String type;   // Cylindrical / Rectangular
+        String cargo;
 
-        // Constructor with validation
-        PassengerBogie(String type, int capacity) throws InvalidCapacityException {
-
-            if (capacity <= 0) {
-                throw new InvalidCapacityException("Capacity must be greater than zero");
-            }
-
+        GoodsBogie(String type) {
             this.type = type;
-            this.capacity = capacity;
         }
 
         public String getType() {
             return type;
         }
 
-        public int getCapacity() {
-            return capacity;
+        public String getCargo() {
+            return cargo;
+        }
+
+        public void setCargo(String cargo) {
+            this.cargo = cargo;
+        }
+    }
+
+    // ---------------- CARGO ASSIGNMENT METHOD ----------------
+    public static void assignCargo(GoodsBogie bogie, String cargo) {
+
+        try {
+            // Validation rule
+            if (bogie.getType().equalsIgnoreCase("Rectangular") &&
+                cargo.equalsIgnoreCase("Petroleum")) {
+
+                throw new CargoSafetyException("Petroleum cannot be assigned to Rectangular bogie!");
+            }
+
+            // Safe assignment
+            bogie.setCargo(cargo);
+            System.out.println("✅ Cargo assigned successfully.");
+
+        } catch (CargoSafetyException e) {
+            // Handle unsafe assignment
+            System.out.println("❌ Error: " + e.getMessage());
+
+        } finally {
+            // Always executes
+            System.out.println("🔄 Assignment attempt completed.\n");
         }
     }
 
@@ -38,41 +60,26 @@ class Train {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        List<PassengerBogie> bogies = new ArrayList<>();
 
-        System.out.print("Enter number of passenger bogies: ");
-        int n = sc.nextInt();
+        // Sample bogies
+        GoodsBogie b1 = new GoodsBogie("Cylindrical");
+        GoodsBogie b2 = new GoodsBogie("Rectangular");
 
-        for (int i = 0; i < n; i++) {
-            sc.nextLine(); // consume newline
+        // User input for cargo
+        System.out.print("Enter cargo for Cylindrical bogie: ");
+        String cargo1 = sc.nextLine();
 
-            System.out.println("\nEnter details for Bogie " + (i + 1));
+        System.out.print("Enter cargo for Rectangular bogie: ");
+        String cargo2 = sc.nextLine();
 
-            System.out.print("Type (Sleeper/AC Chair/First Class): ");
-            String type = sc.nextLine();
+        // Assign cargo safely
+        assignCargo(b1, cargo1);
+        assignCargo(b2, cargo2);
 
-            System.out.print("Capacity: ");
-            int capacity = sc.nextInt();
-
-            try {
-                // Attempt to create bogie
-                PassengerBogie bogie = new PassengerBogie(type, capacity);
-                bogies.add(bogie);
-
-                System.out.println("✅ Bogie added successfully.");
-
-            } catch (InvalidCapacityException e) {
-                // Handle invalid capacity
-                System.out.println("❌ Error: " + e.getMessage());
-                System.out.println("Bogie NOT added.");
-            }
-        }
-
-        // Display valid bogies
-        System.out.println("\n--- Valid Passenger Bogies ---");
-        for (PassengerBogie b : bogies) {
-            System.out.println("Type: " + b.getType() + ", Capacity: " + b.getCapacity());
-        }
+        // Display final state
+        System.out.println("--- Final Bogie Status ---");
+        System.out.println("Cylindrical Bogie Cargo: " + b1.getCargo());
+        System.out.println("Rectangular Bogie Cargo: " + b2.getCargo());
 
         sc.close();
     }
